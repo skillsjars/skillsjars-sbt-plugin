@@ -1,0 +1,20 @@
+# sbt / Scala build outputs
+target/
+project/target/
+project/project/
+
+# BSP / IDE metadata
+.bsp/
+.metals/
+.bloop/
+.scala-build/
+.idea/
+
+# OS / editor noise
+.DS_Store
+*.swp
+*.swo
+
+# JVM / Scala artifacts
+*.class
+*.log
