@@ -18,3 +18,10 @@ project/project/
 # JVM / Scala artifacts
 *.class
 *.log
+
+# Skills folders
+.agents/
+.codex/
+.claude/
+.opencode/
+.cline/
