@@ -4,8 +4,8 @@
 
 It mirrors the behavior of the SkillsJars Gradle plugin:
 
-- scans resolved dependencies for `com.skillsjars` artifacts
-- extracts skill content from `META-INF/skills/` and `META-INF/resources/skills/`
+- extracts all dependencies declared in the `Skills` scope (any group ID)
+- looks for skill content in `META-INF/skills/` and `META-INF/resources/skills/`
 - flattens each discovered skill root into `skillsjars__...`
 - clears the destination directory before writing
 - fails on extracted path collisions
@@ -52,4 +52,3 @@ libraryDependencies ++= Seq(
 
 - `skillsJarsOutputDir`: default destination directory used when the task is invoked without an argument
 - `skillsJarsConfigurations`: configurations to scan for SkillsJars dependencies; defaults to `Seq(Skills)`
-- `skillsJarsOrganization`: dependency organization to treat as SkillsJars, default `com.skillsjars`

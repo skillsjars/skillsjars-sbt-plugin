@@ -1,7 +1,6 @@
 package com.skillsjars.sbt
 
 import sbt.internal.util.ManagedLogger
-import sbt.librarymanagement.ConfigurationReport
 import sbt.librarymanagement.ModuleReport
 import sbt.librarymanagement.UpdateReport
 
@@ -14,7 +13,6 @@ import java.util.jar.JarFile
 import scala.collection.mutable
 
 private[sbt] object SkillsJarsExtractor {
-  val DefaultOrganization = "com.skillsjars"
   val SkillsPrefixes = List("META-INF/skills/", "META-INF/resources/skills/")
 
   final case class SkillsJarCoordinate(id: String, path: Path)
@@ -22,13 +20,12 @@ private[sbt] object SkillsJarsExtractor {
   def extract(
       report: UpdateReport,
       outputPath: Path,
-      organization: String,
       configurationNames: Set[String],
       log: ManagedLogger
   ): Int = {
     require(outputPath != null, "outputPath must not be null")
 
-    val skillsJars = findSkillsJars(report, organization, configurationNames)
+    val skillsJars = findSkillsJars(report, configurationNames)
     log.info(s"Extracting SkillsJars to: $outputPath")
 
     deleteDirectory(outputPath, log)
@@ -47,7 +44,6 @@ private[sbt] object SkillsJarsExtractor {
 
   def findSkillsJars(
       report: UpdateReport,
-      organization: String,
       configurationNames: Set[String]
   ): Vector[SkillsJarCoordinate] = {
     val configurations =
@@ -61,11 +57,9 @@ private[sbt] object SkillsJarsExtractor {
 
     configurations.foreach { config =>
       config.modules.foreach { module =>
-        if (module.module.organization == organization) {
-          jarFile(module).foreach { file =>
-            val id = s"${module.module.organization}:${module.module.name}:${module.module.revision}"
-            discovered.getOrElseUpdate(id, file.toPath)
-          }
+        jarFile(module).foreach { file =>
+          val id = s"${module.module.organization}:${module.module.name}:${module.module.revision}"
+          discovered.getOrElseUpdate(id, file.toPath)
         }
       }
     }

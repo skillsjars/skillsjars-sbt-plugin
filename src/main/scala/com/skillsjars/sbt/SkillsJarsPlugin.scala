@@ -28,9 +28,6 @@ object SkillsJarsPlugin extends AutoPlugin {
         "Configurations to scan for SkillsJars dependencies. Defaults to Seq(Skills)."
       )
 
-    val skillsJarsOrganization: SettingKey[String] =
-      sbt.settingKey[String]("Organization that identifies SkillsJars artifacts.")
-
     val extractSkillsJars: InputKey[File] =
       sbt.inputKey[File](
         "Extract SkillsJars into a target directory. Pass a directory argument or set skillsJarsOutputDir."
@@ -46,7 +43,6 @@ object SkillsJarsPlugin extends AutoPlugin {
     ivyConfigurations += Skills,
     skillsJarsOutputDir := None,
     skillsJarsConfigurations := Seq(Skills),
-    skillsJarsOrganization := SkillsJarsExtractor.DefaultOrganization,
     extractSkillsJars := {
       val outputArg = spaceDelimited("<dir>").parsed.headOption
       val outputDir = resolveOutputDir(outputArg, skillsJarsOutputDir.value, baseDirectory.value)
@@ -55,7 +51,6 @@ object SkillsJarsPlugin extends AutoPlugin {
       SkillsJarsExtractor.extract(
         report = updateFull.value,
         outputPath = outputDir.toPath,
-        organization = skillsJarsOrganization.value,
         configurationNames = configurationNames,
         log = streams.value.log
       )
