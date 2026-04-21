@@ -18,11 +18,9 @@ Add the plugin to `project/plugins.sbt`:
 addSbtPlugin("com.skillsjars" % "skillsjars-sbt-plugin" % "<version>")
 ```
 
-Enable it in your build:
+Configure it in your build:
 
 ```scala
-enablePlugins(com.skillsjars.sbt.SkillsJarsPlugin)
-
 skillsJarsOutputDir := Some(file("target/skills"))
 libraryDependencies += "com.skillsjars" % "example-skill" % "1.0.0" % Skills
 ```
