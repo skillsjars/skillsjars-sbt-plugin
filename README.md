@@ -24,8 +24,10 @@ Enable it in your build:
 enablePlugins(com.skillsjars.sbt.SkillsJarsPlugin)
 
 skillsJarsOutputDir := Some(file("target/skills"))
-libraryDependencies += "com.skillsjars" % "example-skill" % "1.0.0"
+libraryDependencies += "com.skillsjars" % "example-skill" % "1.0.0" % Skills
 ```
+
+Declaring dependencies in the `Skills` scope keeps SkillsJars off your compile and runtime classpath — they are resolved only for extraction.
 
 Run the extraction task:
 
@@ -39,8 +41,17 @@ You can also pass the output directory directly:
 sbt "extractSkillsJars target/skills"
 ```
 
+If you want a SkillsJar to be on the classpath **and** extracted, declare it twice — once normally and once with `% Skills`:
+
+```scala
+libraryDependencies ++= Seq(
+  "com.skillsjars" % "example-skill" % "1.0.0",
+  "com.skillsjars" % "example-skill" % "1.0.0" % Skills
+)
+```
+
 ## Settings
 
 - `skillsJarsOutputDir`: default destination directory used when the task is invoked without an argument
-- `skillsJarsConfigurations`: configurations to scan; empty means all resolved configurations
+- `skillsJarsConfigurations`: configurations to scan for SkillsJars dependencies; defaults to `Seq(Skills)`
 - `skillsJarsOrganization`: dependency organization to treat as SkillsJars, default `com.skillsjars`

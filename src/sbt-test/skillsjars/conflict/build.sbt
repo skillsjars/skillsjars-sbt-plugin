@@ -50,8 +50,8 @@ lazy val root = project
   .settings(
     scalaVersion := "2.12.20",
     libraryDependencies ++= Seq(
-      "com.skillsjars" % "conflict-one" % "1.0.0",
-      "com.skillsjars" % "conflict-two" % "1.0.0"
+      "com.skillsjars" % "conflict-one" % "1.0.0" % Skills,
+      "com.skillsjars" % "conflict-two" % "1.0.0" % Skills
     ),
     prepareConflictRepo := {
       val repoRoot = Path.userHome / ".ivy2" / "local"
