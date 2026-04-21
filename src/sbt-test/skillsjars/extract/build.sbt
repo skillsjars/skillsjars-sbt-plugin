@@ -51,8 +51,8 @@ lazy val root = project
   .settings(
     scalaVersion := "2.12.20",
     libraryDependencies ++= Seq(
-      "com.skillsjars" % "catalog-skill" % "1.0.0",
-      "com.skillsjars" % "legacy-skill" % "1.0.0",
+      "com.skillsjars" % "catalog-skill" % "1.0.0" % Skills,
+      "com.skillsjars" % "legacy-skill" % "1.0.0" % Skills,
       "com.example" % "other-lib" % "1.0.0"
     ),
     skillsJarsOutputDir := Some(file("output")),

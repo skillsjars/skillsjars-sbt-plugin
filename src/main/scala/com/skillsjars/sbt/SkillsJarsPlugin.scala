@@ -1,6 +1,7 @@
 package com.skillsjars.sbt
 
 import sbt.Keys.baseDirectory
+import sbt.Keys.ivyConfigurations
 import sbt.Keys.streams
 import sbt.Keys.updateFull
 import sbt.Configuration
@@ -10,18 +11,21 @@ import sbt.InputKey
 import sbt.Plugins
 import sbt.SettingKey
 import sbt.AutoPlugin
+import sbt.config
 import sbt.file
 import sbt.plugins.JvmPlugin
 import sbt.complete.DefaultParsers.spaceDelimited
 
 object SkillsJarsPlugin extends AutoPlugin {
   object autoImport {
+    val Skills: Configuration = config("skills")
+
     val skillsJarsOutputDir: SettingKey[Option[File]] =
       sbt.settingKey[Option[File]]("Default output directory for extracted SkillsJars.")
 
     val skillsJarsConfigurations: SettingKey[Seq[Configuration]] =
       sbt.settingKey[Seq[Configuration]](
-        "Configurations to scan for SkillsJars dependencies. Empty means all resolved configurations."
+        "Configurations to scan for SkillsJars dependencies. Defaults to Seq(Skills)."
       )
 
     val skillsJarsOrganization: SettingKey[String] =
@@ -39,8 +43,9 @@ object SkillsJarsPlugin extends AutoPlugin {
   override def trigger = noTrigger
 
   override lazy val projectSettings: Seq[Def.Setting[_]] = Seq(
+    ivyConfigurations += Skills,
     skillsJarsOutputDir := None,
-    skillsJarsConfigurations := Seq.empty,
+    skillsJarsConfigurations := Seq(Skills),
     skillsJarsOrganization := SkillsJarsExtractor.DefaultOrganization,
     extractSkillsJars := {
       val outputArg = spaceDelimited("<dir>").parsed.headOption
