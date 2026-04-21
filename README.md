@@ -21,15 +21,10 @@ addSbtPlugin("com.skillsjars" % "skillsjars-sbt-plugin" % "<version>")
 Enable it in your build:
 
 ```scala
-import com.skillsjars.sbt.SkillsJarsPlugin
+enablePlugins(com.skillsjars.sbt.SkillsJarsPlugin)
 
-lazy val root = project
-  .in(file("."))
-  .enablePlugins(SkillsJarsPlugin)
-  .settings(
-    skillsJarsOutputDir := Some(file("target/skills")),
-    libraryDependencies += "com.skillsjars" % "example-skill" % "1.0.0"
-  )
+skillsJarsOutputDir := Some(file("target/skills"))
+libraryDependencies += "com.skillsjars" % "example-skill" % "1.0.0"
 ```
 
 Run the extraction task:
