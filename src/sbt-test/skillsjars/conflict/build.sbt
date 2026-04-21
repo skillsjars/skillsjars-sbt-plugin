@@ -1,4 +1,3 @@
-import com.skillsjars.sbt.SkillsJarsPlugin
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
 import java.util.jar.JarEntry
@@ -46,7 +45,6 @@ def publishModule(repoRoot: File, groupId: String, artifactId: String, version: 
 
 lazy val root = project
   .in(file("."))
-  .enablePlugins(SkillsJarsPlugin)
   .settings(
     scalaVersion := "2.12.20",
     libraryDependencies ++= Seq(
