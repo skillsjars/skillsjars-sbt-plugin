@@ -7,6 +7,7 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.Comparator
 import java.util.regex.Pattern
@@ -29,10 +30,11 @@ private[sbt] object SkillsJarsPackager {
     require(skillsDir != null, "skillsDir must not be null")
     require(outputRoot != null, "outputRoot must not be null")
 
+    val managedSkillsRoot = resolveManagedSkillsRoot(outputRoot)
     val packageRoot = resolvePackageRoot(projectOrganization, scm)
     val targetRoot = outputRoot.resolve(packageRoot)
 
-    deleteDirectory(targetRoot, log)
+    deleteDirectory(managedSkillsRoot, log)
 
     if (!Files.isDirectory(skillsDir)) {
       log.debug(s"Skills directory not found: $skillsDir")
@@ -68,12 +70,15 @@ private[sbt] object SkillsJarsPackager {
     packagedFiles.toVector
   }
 
+  private def resolveManagedSkillsRoot(outputRoot: Path): Path =
+    outputRoot.resolve(Paths.get("META-INF", "skills"))
+
   private def resolvePackageRoot(projectOrganization: String, scm: Option[ScmInfo]): Path =
     parseGitHubCoordinates(scm).map {
-      case (org, repo) => Path.of("META-INF", "skills", org, repo)
+      case (org, repo) => Paths.get("META-INF", "skills", org, repo)
     }.getOrElse {
       val groupPath = projectOrganization.replace('.', '/')
-      Path.of("META-INF", "skills").resolve(groupPath)
+      Paths.get("META-INF", "skills").resolve(groupPath)
     }
 
   private def parseGitHubCoordinates(scm: Option[ScmInfo]): Option[(String, String)] =

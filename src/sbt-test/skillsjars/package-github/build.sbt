@@ -1,5 +1,6 @@
 val assertPackagedLayout = taskKey[Unit]("Assert that skills were packaged into managed resources.")
 val assertCompiledLayout = taskKey[Unit]("Assert that packaged skills are present in the packaged jar.")
+val seedStalePackagedSkills = taskKey[Unit]("Seed stale packaged skills under an old prefix.")
 
 lazy val root = project
   .in(file("."))
@@ -10,6 +11,11 @@ lazy val root = project
     skillsJarsAllowedTools := Map(
       "test-skill" -> "Bash Read Edit"
     ),
+    seedStalePackagedSkills := {
+      val staleFile =
+        (Compile / resourceManaged).value / "META-INF" / "skills" / "com" / "example" / "test" / "stale-skill" / "stale.txt"
+      IO.write(staleFile, "stale", java.nio.charset.StandardCharsets.UTF_8, append = false)
+    },
     assertPackagedLayout := {
       val packaged = packageSkillsJars.value
       val resourceRoot = (Compile / resourceManaged).value.getCanonicalFile
@@ -38,6 +44,10 @@ lazy val root = project
       assert(
         IO.read(resourceRoot / "META-INF" / "skills" / "testorg" / "testrepo" / "second-skill" / "docs" / "usage.md").trim == "second docs",
         "second skill docs content should match"
+      )
+      assert(
+        !(resourceRoot / "META-INF" / "skills" / "com" / "example" / "test" / "stale-skill" / "stale.txt").exists(),
+        "stale packaged content under an old prefix should be removed"
       )
       assert(!packagedPaths.exists(_.contains("/ignored-dir/")), "directories without SKILL.md should be skipped")
     },
