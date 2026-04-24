@@ -1,0 +1,5 @@
+> seedStalePackagedSkills
+> packageSkillsJars
+> assertPackagedLayout
+> compile
+> assertCompiledLayout
