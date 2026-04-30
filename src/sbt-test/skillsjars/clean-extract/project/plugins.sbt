@@ -1,0 +1,1 @@
+addSbtPlugin("com.skillsjars" % "skillsjars-sbt-plugin" % sys.props("plugin.version"))

@@ -1,0 +1,5 @@
+> prepareRepo
+> extractSkillsJars
+> assertExtractedLayout
+> clean
+> assertCleanedLayout

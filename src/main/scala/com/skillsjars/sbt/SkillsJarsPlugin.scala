@@ -1,6 +1,7 @@
 package com.skillsjars.sbt
 
 import sbt.Keys.baseDirectory
+import sbt.Keys.clean
 import sbt.Keys.ivyConfigurations
 import sbt.Keys.organization
 import sbt.Keys.resourceGenerators
@@ -11,6 +12,7 @@ import sbt.Keys.updateFull
 import sbt.Configuration
 import sbt.Def
 import sbt.File
+import sbt.IO
 import sbt.InputKey
 import sbt.Plugins
 import sbt.SettingKey
@@ -64,6 +66,14 @@ object SkillsJarsPlugin extends AutoPlugin {
     skillsJarsConfigurations := Seq(Skills),
     skillsJarsSourceDir := new File(baseDirectory.value, "skills"),
     skillsJarsAllowedTools := Map.empty,
+    clean := clean
+      .dependsOn(Def.task {
+        skillsJarsOutputDir.value.toSeq.foreach { path =>
+          val resolved = if (path.isAbsolute) path else new File(baseDirectory.value, path.getPath)
+          IO.delete(resolved)
+        }
+      })
+      .value,
     extractSkillsJars := {
       val outputArg = spaceDelimited("<dir>").parsed.headOption
       val outputDir = resolveOutputDir(outputArg, skillsJarsOutputDir.value, baseDirectory.value)
