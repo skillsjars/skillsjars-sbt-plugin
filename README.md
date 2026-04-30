@@ -41,6 +41,8 @@ You can also pass the output directory directly:
 sbt "extractSkillsJars target/skills"
 ```
 
+If you set `skillsJarsOutputDir`, `sbt clean` will also remove the extracted artefacts in that configured output directory. One-off paths passed directly to `extractSkillsJars <dir>` are not tracked by `clean`.
+
 If you want a SkillsJar to be on the classpath **and** extracted, declare it twice — once normally and once with `% Skills`:
 
 ```scala
