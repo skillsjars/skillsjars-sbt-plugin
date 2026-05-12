@@ -35,6 +35,20 @@ Run the extraction task:
 sbt extractSkillsJars
 ```
 
+`extractSkillsJars` does not aggregate by default. In a multi-project build, `sbt extractSkillsJars` runs only for the current project and does not automatically run in aggregated subprojects.
+
+If you want extraction from a specific project, scope it explicitly:
+
+```text
+sbt "root / extractSkillsJars"
+```
+
+If you want to run extraction across multiple projects, fan it out explicitly with `all`:
+
+```text
+sbt "all root / extractSkillsJars app / extractSkillsJars"
+```
+
 You can also pass the output directory directly:
 
 ```text
