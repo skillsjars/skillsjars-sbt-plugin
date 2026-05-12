@@ -1,6 +1,7 @@
 package com.skillsjars.sbt
 
 import sbt.Keys.baseDirectory
+import sbt.Keys.aggregate
 import sbt.Keys.clean
 import sbt.Keys.ivyConfigurations
 import sbt.Keys.organization
@@ -66,6 +67,7 @@ object SkillsJarsPlugin extends AutoPlugin {
     skillsJarsConfigurations := Seq(Skills),
     skillsJarsSourceDir := new File(baseDirectory.value, "skills"),
     skillsJarsAllowedTools := Map.empty,
+    extractSkillsJars / aggregate := false,
     clean := clean
       .dependsOn(Def.task {
         skillsJarsOutputDir.value.toSeq.foreach { path =>
