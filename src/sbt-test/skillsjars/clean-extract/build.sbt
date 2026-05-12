@@ -48,7 +48,7 @@ def publishModule(repoRoot: File, groupId: String, artifactId: String, version: 
 lazy val root = project
   .in(file("."))
   .settings(
-    scalaVersion := "2.12.20",
+    scalaVersion := "2.12.21",
     libraryDependencies += "com.skillsjars" % "catalog-skill" % "1.0.0" % Skills,
     skillsJarsOutputDir := Some(file("output")),
     prepareRepo := {
