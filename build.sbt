@@ -4,7 +4,7 @@ name := "skillsjars-sbt-plugin"
 
 organization := "com.skillsjars"
 
-scalaVersion := "2.12.21"
+scalaVersion := "2.13.18"
 
 description := "sbt plugin for unpacking SkillsJars from Maven repositories"
 

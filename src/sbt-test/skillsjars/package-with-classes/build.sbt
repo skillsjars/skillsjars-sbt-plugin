@@ -3,7 +3,7 @@ val assertProjectAndSkillsPackaged = taskKey[Unit]("Assert that compiled classes
 lazy val root = project
   .in(file("."))
   .settings(
-    scalaVersion := "2.12.21",
+    scalaVersion := "2.13.18",
     organization := "com.example.test",
     scmInfo := Some(ScmInfo(url("https://github.com/testorg/testrepo"), "scm:git:https://github.com/testorg/testrepo.git")),
     assertProjectAndSkillsPackaged := {
