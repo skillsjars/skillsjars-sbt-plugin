@@ -6,6 +6,15 @@ organization := "com.skillsjars"
 
 scalaVersion := "2.12.21"
 
+crossScalaVersions := Seq("2.12.21", "3.8.4")
+
+pluginCrossBuild / sbtVersion := {
+  scalaBinaryVersion.value match {
+    case "2.12" => "1.12.12"
+    case _      => "2.0.0"
+  }
+}
+
 description := "sbt plugin for unpacking SkillsJars from Maven repositories"
 
 homepage := Some(url("https://github.com/skillsjars/skillsjars-sbt-plugin"))

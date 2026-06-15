@@ -11,7 +11,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.Comparator
 import java.util.regex.Pattern
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 private[sbt] object SkillsJarsPackager {
@@ -83,7 +83,7 @@ private[sbt] object SkillsJarsPackager {
 
   private def parseGitHubCoordinates(scm: Option[ScmInfo]): Option[(String, String)] =
     scm.toSeq.flatMap { info =>
-      info.browseUrl.toExternalForm +: info.devConnection.toSeq
+      info.browseUrl.toString +: info.devConnection.toSeq
     }.flatMap(url => parseGitHubCoordinates(url))
       .headOption
 

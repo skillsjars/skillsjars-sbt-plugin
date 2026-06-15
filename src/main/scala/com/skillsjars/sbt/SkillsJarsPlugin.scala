@@ -1,28 +1,8 @@
 package com.skillsjars.sbt
 
-import sbt.Keys.baseDirectory
-import sbt.Keys.aggregate
-import sbt.Keys.clean
-import sbt.Keys.ivyConfigurations
-import sbt.Keys.organization
-import sbt.Keys.resourceGenerators
-import sbt.Keys.resourceManaged
-import sbt.Keys.scmInfo
-import sbt.Keys.streams
-import sbt.Keys.updateFull
-import sbt.Configuration
-import sbt.Def
-import sbt.File
-import sbt.IO
-import sbt.InputKey
-import sbt.Plugins
-import sbt.SettingKey
-import sbt.AutoPlugin
-import sbt.Compile
-import sbt.config
-import sbt.file
+import sbt._
+import sbt.Keys._
 import sbt.plugins.JvmPlugin
-import sbt.TaskKey
 import sbt.complete.DefaultParsers.spaceDelimited
 
 object SkillsJarsPlugin extends AutoPlugin {
@@ -45,12 +25,12 @@ object SkillsJarsPlugin extends AutoPlugin {
         "Allowed-tools declarations keyed by skill name for validating local SKILL.md frontmatter."
       )
 
-    val extractSkillsJars: InputKey[File] =
+    @transient val extractSkillsJars: InputKey[File] =
       sbt.inputKey[File](
         "Extract SkillsJars into a target directory. Pass a directory argument or set skillsJarsOutputDir."
       )
 
-    val packageSkillsJars: TaskKey[Seq[File]] =
+    @transient val packageSkillsJars: TaskKey[Seq[File]] =
       sbt.taskKey[Seq[File]](
         "Package local skills into managed resources under META-INF/skills."
       )
@@ -61,7 +41,7 @@ object SkillsJarsPlugin extends AutoPlugin {
   override def requires: Plugins = JvmPlugin
   override def trigger = allRequirements
 
-  override lazy val projectSettings: Seq[Def.Setting[_]] = Seq(
+  override lazy val projectSettings: Seq[Def.Setting[?]] = Seq(
     ivyConfigurations += Skills,
     skillsJarsOutputDir := None,
     skillsJarsConfigurations := Seq(Skills),
