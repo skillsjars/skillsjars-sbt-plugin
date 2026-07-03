@@ -16,7 +16,9 @@ jobs:
           cache: 'sbt'
 
       - run: |
-          ./sbt scripted
+          ./sbt "+compile"
+          ./sbt "++ 2.12.21! scripted skillsjars/*"
+          ./sbt "++ 3.8.4! scripted skillsjars-sbt2/*"
           ./sbt ci-release
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}

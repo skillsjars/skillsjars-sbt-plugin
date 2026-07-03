@@ -11,7 +11,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.Comparator
 import java.util.regex.Pattern
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 import scala.collection.mutable
 
 private[sbt] object SkillsJarsPackager {

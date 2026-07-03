@@ -41,7 +41,7 @@ object SkillsJarsPlugin extends AutoPlugin {
   override def requires: Plugins = JvmPlugin
   override def trigger = allRequirements
 
-  override lazy val projectSettings: Seq[Def.Setting[?]] = Seq(
+  override lazy val projectSettings: Seq[Def.Setting[_]] = Seq(
     ivyConfigurations += Skills,
     skillsJarsOutputDir := None,
     skillsJarsConfigurations := Seq(Skills),

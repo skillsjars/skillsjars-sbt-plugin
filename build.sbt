@@ -1,5 +1,8 @@
 enablePlugins(SbtPlugin)
 
+val Sbt1Version = "1.12.12"
+val Sbt2Version = "2.0.1"
+
 name := "skillsjars-sbt-plugin"
 
 organization := "com.skillsjars"
@@ -10,8 +13,8 @@ crossScalaVersions := Seq("2.12.21", "3.8.4")
 
 pluginCrossBuild / sbtVersion := {
   scalaBinaryVersion.value match {
-    case "2.12" => "1.12.12"
-    case _      => "2.0.0"
+    case "2.12" => Sbt1Version
+    case _      => Sbt2Version
   }
 }
 
