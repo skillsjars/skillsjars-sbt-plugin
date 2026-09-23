@@ -4,7 +4,7 @@ name := "skillsjars-sbt-plugin"
 
 organization := "com.skillsjars"
 
-scalaVersion := "2.12.21"
+scalaVersion := "3.9.0"
 
 crossScalaVersions := Seq("2.12.21", "3.8.4")
 
