@@ -22,6 +22,9 @@ project/project/
 # Skills folders
 .agents/
 .codex/
-.claude/
+/.claude/settings.local.json
 .opencode/
 .cline/
+
+# Agent Skills extracted by the build
+/.kiro/skills/
