@@ -38,7 +38,7 @@ licenses := Seq("Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0
 
 ThisBuild / versionScheme := Some("semver-spec")
 
-addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.1.0")
+addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.2.0")
 
 javacOptions ++= Seq("-source", "17", "-target", "17")
 scalacOptions ++= (scalaBinaryVersion.value match {
@@ -61,4 +61,4 @@ Global / mcpPort := 5113
 // SkillsJars: extract agent Skills with `./sbt extractSkillsJars`
 skillsJarsOutputDir := Some(file(".kiro/skills"))
 
-libraryDependencies += "com.jamesward" % "skills" % "0.0.10" % Skills
+libraryDependencies += "com.jamesward" % "skills" % "0.0.11" % Skills
