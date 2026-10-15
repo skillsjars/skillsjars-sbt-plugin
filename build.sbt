@@ -10,7 +10,7 @@ crossScalaVersions := Seq("2.12.21", "3.8.4")
 
 pluginCrossBuild / sbtVersion := {
   scalaBinaryVersion.value match {
-    case "2.12" => "1.12.12"
+    case "2.12" => "1.13.0"
     case _      => "2.0.0"
   }
 }
@@ -61,4 +61,4 @@ ThisBuild / mcpPort := 5113
 // SkillsJars: extract agent Skills with `./sbt extractSkillsJars`
 skillsJarsOutputDir := Some(file(".kiro/skills"))
 
-libraryDependencies += "com.jamesward" % "skills" % "0.0.11" % Skills
+libraryDependencies += "com.jamesward" % "skills" % "0.0.15" % Skills
