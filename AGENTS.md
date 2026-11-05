@@ -7,6 +7,10 @@
 - Maintenance routine: `.factory/MAINTENANCE.md` (weekly), following the `zen-of-projects` Skill.
 - Validation: `./sbta "Test / compile; +scripted"` (the sbt 1 leg runs every fixture except `sbt2`, the sbt 2 leg runs `sbt2`; CI runs `+scripted` too, because plain `scripted` runs only the sbt 1 leg; use `./sbta` rather than sbt-mcp, because `+` cross-building reloads sbt and drops the MCP connection). It takes about 2 to 13 minutes.
 
+## Java
+
+- CI and releases build on Java 25, the factory's JDK. The published artifacts still target Java 17 (`javacOptions` `-source 17 -target 17`, Scala 3 `-release 17`; Scala 2.12 can't target above 8), so users on Java 17 keep working. Keep those options when changing the JDK.
+
 ## Supported sbt versions
 
 This plugin supports sbt 1 and sbt 2 and keeps both: most builds that use it are still on sbt 1, and an sbt 2-only plugin can't be added to them.
