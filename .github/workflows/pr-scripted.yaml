@@ -30,4 +30,4 @@ jobs:
           cache: sbt
 
       - name: Run scripted tests
-        run: ./sbta scripted
+        run: ./sbta +scripted
