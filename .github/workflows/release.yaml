@@ -16,7 +16,7 @@ jobs:
           cache: 'sbt'
 
       - run: |
-          ./sbta scripted
+          ./sbta +scripted
           ./sbta ci-release
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
