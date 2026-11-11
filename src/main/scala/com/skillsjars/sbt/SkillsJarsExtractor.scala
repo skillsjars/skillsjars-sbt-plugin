@@ -15,17 +15,13 @@ import scala.collection.mutable
 private[sbt] object SkillsJarsExtractor {
   val SkillsPrefixes = List("META-INF/skills/", "META-INF/resources/skills/")
 
-  final case class SkillsJarCoordinate(id: String, path: Path)
-
   def extract(
-      report: UpdateReport,
+      skillsJars: Vector[SkillsJar],
       outputPath: Path,
-      configurationNames: Set[String],
       log: ManagedLogger
   ): Int = {
     require(outputPath != null, "outputPath must not be null")
 
-    val skillsJars = findSkillsJars(report, configurationNames)
     log.info(s"Extracting SkillsJars to: $outputPath")
 
     deleteDirectory(outputPath, log)
@@ -42,10 +38,11 @@ private[sbt] object SkillsJarsExtractor {
     skillsJars.size
   }
 
+  /** The jars of `report`'s configurations named `configurationNames` (every configuration when empty), transitive ones included. */
   def findSkillsJars(
       report: UpdateReport,
       configurationNames: Set[String]
-  ): Vector[SkillsJarCoordinate] = {
+  ): Vector[SkillsJar] = {
     val configurations =
       if (configurationNames.nonEmpty) {
         report.configurations.filter(config => configurationNames.contains(config.configuration.name))
@@ -53,18 +50,18 @@ private[sbt] object SkillsJarsExtractor {
         report.configurations
       }
 
-    val discovered = mutable.LinkedHashMap.empty[String, Path]
+    val discovered = mutable.LinkedHashMap.empty[String, SkillsJar]
 
     configurations.foreach { config =>
-      config.modules.foreach { module =>
+      config.modules.filterNot(_.evicted).foreach { module =>
         jarFile(module).foreach { file =>
-          val id = s"${module.module.organization}:${module.module.name}:${module.module.revision}"
-          discovered.getOrElseUpdate(id, file.toPath)
+          val jar = SkillsJar(module.module.organization, module.module.name, module.module.revision, file.toPath)
+          discovered.getOrElseUpdate(jar.id, jar)
         }
       }
     }
 
-    discovered.iterator.map { case (id, path) => SkillsJarCoordinate(id, path) }.toVector
+    discovered.values.toVector
   }
 
   private def jarFile(module: ModuleReport): Option[java.io.File] =
@@ -73,7 +70,7 @@ private[sbt] object SkillsJarsExtractor {
     }
 
   private def extractSkillsJar(
-      jar: SkillsJarCoordinate,
+      jar: SkillsJar,
       outputPath: Path,
       extractedPaths: mutable.Map[String, String],
       log: ManagedLogger

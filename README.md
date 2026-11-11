@@ -35,24 +35,18 @@ Run the extraction task:
 sbt extractSkillsJars
 ```
 
-`extractSkillsJars` does not aggregate by default. In a multi-project build, `sbt extractSkillsJars` runs only for the current project and does not automatically run in aggregated subprojects.
-
-If you want extraction from a specific project, scope it explicitly:
-
-```text
-sbt "root / extractSkillsJars"
-```
-
-If you want to run extraction across multiple projects, fan it out explicitly with `all`:
-
-```text
-sbt "all root / extractSkillsJars app / extractSkillsJars"
-```
+`extractSkillsJars` extracts the whole build's SkillsJars: every project's, in every build sbt loaded (including `RootProject` / `ProjectRef` dependencies), each project scanning its own `skillsJarsConfigurations`, transitive dependencies included. When projects resolve the same SkillsJar at different revisions, the highest is extracted, with a warning. The task itself doesn't aggregate: run it once, from any project; it writes to that project's output directory.
 
 You can also pass the output directory directly:
 
 ```text
 sbt "extractSkillsJars target/skills"
+```
+
+`skillsJarsFiles` is the same SkillsJars as a task value: the jar files, one per module at its highest revision. Tools outside sbt read it too: [sbta](https://github.com/jamesward/sbta)'s MCP server serves these skills over MCP.
+
+```text
+sbt "show skillsJarsFiles"
 ```
 
 If you set `skillsJarsOutputDir`, `sbt clean` will also remove the extracted artefacts in that configured output directory. One-off paths passed directly to `extractSkillsJars <dir>` are not tracked by `clean`.
@@ -94,6 +88,6 @@ skillsJarsAllowedTools := Map(
 ## Settings
 
 - `skillsJarsOutputDir`: default destination directory used when the task is invoked without an argument
-- `skillsJarsConfigurations`: configurations to scan for SkillsJars dependencies; defaults to `Seq(Skills)`
+- `skillsJarsConfigurations`: this project's configurations to scan for SkillsJars dependencies; defaults to `Seq(Skills)`; an empty `Seq` scans every configuration
 - `skillsJarsSourceDir`: local directory containing skills to package; defaults to `baseDirectory.value / "skills"`
 - `skillsJarsAllowedTools`: expected `allowed-tools` values keyed by skill name for packaging validation
