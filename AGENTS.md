@@ -5,7 +5,7 @@
 - Follow the `zen-of-projects` Skill (extract with `./sbta extractSkillsJars` into the gitignored `.kiro/skills/`); this file records only project-specific facts and exceptions.
 - MCP server `sbta` (this build's `./sbta --mcp`, configured in `.mcp.json` and `.kiro/settings/mcp.json`, approved in `.claude/settings.json`): use it for all sbt work: `compile`, `test` (`full` for all), `run`, `check` after editing Scala 3 sources, `glob-search` / `inspect` / `symbol-location` for symbols, `sbt-task` for any other command. Its tools are deferred in Claude Code: load them with ToolSearch (search `sbta`). If it's unavailable, say so and use `./sbta <command>`. Logs: `project/target/sbta/mcp.log`.
 - Maintenance routine: `.factory/MAINTENANCE.md` (weekly), following the `zen-of-projects` Skill.
-- Validation: `./sbta "Test / compile; +scripted"` (the sbt 1 leg runs every fixture except `sbt2` and `sbt2-all-projects`, the sbt 2 leg runs those two; CI runs `+scripted` too, because plain `scripted` runs only the sbt 1 leg; use `./sbta` rather than sbt-mcp, because `+` cross-building reloads sbt and drops the MCP connection). It takes about 2 to 13 minutes.
+- Validation: `./sbta "Test / compile; +scripted"` (the sbt 1 leg runs every fixture except `sbt2` and `sbt2-all-projects`, the sbt 2 leg runs those two; CI runs `+scripted` too, because plain `scripted` runs only the sbt 1 leg; use `./sbta` rather than the `sbta` MCP tools, because `+` cross-building reloads sbt and drops the MCP connection). It takes about 2 to 13 minutes.
 
 ## Java
 
