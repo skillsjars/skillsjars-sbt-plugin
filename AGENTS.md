@@ -20,5 +20,7 @@ This plugin supports sbt 1 and sbt 2 and keeps both: most builds that use it are
 - **sbt 1 (Scala 2.12): `1.9.0`.** The oldest sbt 1 that can use this plugin at all: it depends on `sbt2-compat`, whose sbt 1 build needs 1.9.0 or later (older sbt can't resolve Maven-style plugin artifacts from Maven Central), and sbt2-compat's own setup uses this floor. The scripted test `sbt-floor` (a copy of `extract` with `sbt.version=1.9.0`) runs the plugin on it; keep that fixture's sbt at the floor when the maintenance routine bumps the others.
 - **sbt 2 (Scala 3): `2.0.0`**, the first sbt 2 release, so every sbt 2 user can use it. The scripted tests `sbt2` and `sbt2-all-projects` (copies of `extract` and `extract-all-projects` with `sbt.version=2.0.0`) run the plugin on it; keep those fixtures' sbt at the floor too.
 
+The Scala 3 `scalaVersion` (3.8.4) follows the sbt 2 floor (`2.0.0`), not `project/build.properties`: the `sbt2` fixtures run the plugin on sbt 2.0.0, whose build compiler can't read TASTy from a newer Scala (3.9.0 fails with `class Scope has non-class parent`). Don't bump it with sbt 2.1.x.
+
 Raise a floor only when the plugin needs an API the floor lacks: say which in the PR, label it `needs-human` (it drops users on older sbt), and update this section.
 
